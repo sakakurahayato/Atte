@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Attempting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
+use Illuminate\Pagination\Paginator;
 
 class AttendanceController extends Controller
 {
