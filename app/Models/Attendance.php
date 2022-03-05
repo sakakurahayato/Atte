@@ -59,15 +59,11 @@ class Attendance extends Model
     public function getAttendanceSumAttribute(){
         $RestSeconds = $this->RestSeconds;
 
-        $AttendanceSum = 0;
-        $Attendances = Attendance::all();
-        foreach($Attendances as $Attendance){
-            $Attendance_start = new Carbon($Attendance->start_time);
-            $Attendance_end = new Carbon($Attendance->end_time);
-            $AttendanceTime = $Attendance_start->diffInSeconds($Attendance_end);
-            $AttendanceSum += $AttendanceTime;
-        }
-        $AttendanceSeconds = $AttendanceSum-$RestSeconds;
+        $start_time = new Carbon($this->start_time);
+        $end_time = new Carbon($this->end_time);
+        $attendanceTime = $start_time->diffInSeconds($end_time);
+
+        $AttendanceSeconds = $attendanceTime-$RestSeconds;
         $hours = floor($AttendanceSeconds / 3600);
         $minutes = floor(($AttendanceSeconds / 60) % 60);
         $seconds = $AttendanceSeconds % 60;

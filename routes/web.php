@@ -24,7 +24,8 @@ Route::post('/rest_start',[RestController::class,'rest_start'])->middleware('aut
 Route::post('/rest_end',[RestController::class,'rest_end'])->middleware('auth');
 Route::get('/attendance',[AttendanceController::class,'attendance'])->middleware('auth');
 Route::post('/next',[AttendanceController::class,'next']);
-Route::post('/back',[AttendanceController::class,'next']);
+Route::post('/back',[AttendanceController::class,'back']);
+Route::post('/auto',[AttendanceController::class,'auto']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

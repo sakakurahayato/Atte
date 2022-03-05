@@ -5,9 +5,9 @@
 <div class="date">
     <form action="back" method="POST">
         @csrf
-        <button class="attendance-btn">
-            <</button> <input type="hidden" vlaue="{{$today}}" name="day">
-                <input type="hidden" value="back">
+        <button class="attendance-btn"><</button>
+        <input type="hidden" value="{{$today}}" name="day">
+        <input type="hidden" value="back">
     </form>
 
     <h1 class="table-title">{{$today}}</h1>
@@ -15,7 +15,7 @@
     <form action="next" method="POST">
         @csrf
         <button class="attendance-btn">></button>
-        <input type="hidden" vlaue="{{$today}}" name="day">
+        <input type="hidden" value="{{$today}}" name="day">
         <input type="hidden" value="next">
     </form>
 </div>

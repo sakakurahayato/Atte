@@ -35,6 +35,15 @@ class AttendanceController extends Controller
     public function work_start(Request $request)
     {
         $date = Carbon::now();
+        $last_attendance = Attendance::where('user_id',Auth::id())->latest()->first();
+        // dd($last_attendance);
+        if (is_null($last_attendance->end_time)) {
+            $end =
+                [
+                    'end_time' => "23:59:59"
+                ];
+            $last_attendance->update($end);
+        }
         $data =
             [
                 'user_id' => Auth::id(),
@@ -42,16 +51,18 @@ class AttendanceController extends Controller
                 'start_time' => $date->toTimeString(),
             ];
         Attendance::create($data);
+        
         return redirect('/');
     }
     public function work_end()
     {
         $date = Carbon::now();
         $data =
-            [
-                'end_time' => $date->toTimeString()
-            ];
-        Attendance::where('user_id', Auth::id())->latest()->first()->update($data);
+        [
+            'end_time' => $date->toTimeString()
+        ];
+        $attendance = Attendance::where('user_id', Auth::id())->latest()->first();
+        $attendance->update($data);
         return redirect('/');
     }
     public function attendance(Request $request)
@@ -62,6 +73,7 @@ class AttendanceController extends Controller
         // dd($attendances);
         return view('layouts.attendance',compact('attendances','today'));
     }
+
     public function next(Request $request)
     {
         $today = Carbon::now();
@@ -75,7 +87,6 @@ class AttendanceController extends Controller
         $date = new Carbon($request->day);
         $today = $date->subDay()->format('Y-m-d');
         $attendances = Attendance::whereDate('date',$today)->paginate(5);
-        dd($date,$today,$attendances);
         return view('layouts.attendance',compact('today','attendances'));
     }
 }
